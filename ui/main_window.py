@@ -1,19 +1,23 @@
 import sys
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout,
-    QPushButton, QListWidget, QTextEdit, QLabel, QHBoxLayout
+    QPushButton, QListWidget, QTextEdit, QLabel, QHBoxLayout, QListWidgetItem
 )
-from PySide6.QtCore import Qt, QThread, Signal
+from PySide6.QtCore import Qt
 from services.scanning_service import ScanningService
 from services.validation_service import ValidationService
+from validators.validator_factory import ValidatorFactory
+from utils.validation_result import ValidationStatus
+from models.scene_object import SceneObject
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Validation Tool")
         self.resize(800, 600)
-        self.scanned_objects = []
-        self.validation_results = {}
+        self.scanned_objects: List[SceneObject] = []
+        self.validation_service = ValidationService()
+        self.object_uuid_map = {}  # Map UUIDs to objects
 
         self.init_ui()
         self.scan_scene()
@@ -46,48 +50,61 @@ class MainWindow(QMainWindow):
     def scan_scene(self):
         self.scanned_objects = ScanningService.scan_scene()
         self.object_list.clear()
+        self.object_uuid_map.clear()
         for obj in self.scanned_objects:
-            self.object_list.addItem(obj.name)
+            item = QListWidgetItem(obj.name)
+            item.setData(Qt.UserRole, obj.uuid)
+            self.object_list.addItem(item)
+            self.object_uuid_map[obj.uuid] = obj
 
     def run_validations(self):
-        validation_service = ValidationService()
-        self.validation_results = validation_service.validate_objects(self.scanned_objects)
+        self.validation_service.validate_objects(self.scanned_objects)
         self.update_object_list_status()
 
     def update_object_list_status(self):
         for index in range(self.object_list.count()):
             item = self.object_list.item(index)
-            obj = self.scanned_objects[index]
-            obj_results = self.validation_results.get(obj.long_name, [])
+            uuid = item.data(Qt.UserRole)
+            obj_results = self.validation_service.validation_results.get(uuid, [])
             worst_status = self.get_worst_status(obj_results)
             item.setForeground(self.get_color_for_status(worst_status))
 
     def get_worst_status(self, results):
         status_order = {
-            'ERROR': 3,
-            'WARNING': 2,
-            'GOOD': 1
+            ValidationStatus.ERROR: 3,
+            ValidationStatus.WARNING: 2,
+            ValidationStatus.GOOD: 1
         }
-        worst = 'GOOD'
-        for _, result in results:
-            if status_order[result.status.name] > status_order[worst]:
-                worst = result.status.name
+        worst = ValidationStatus.GOOD
+        for result in results:
+            if status_order[result.status] > status_order[worst]:
+                worst = result.status
         return worst
 
     def get_color_for_status(self, status):
         colors = {
-            'GOOD': Qt.green,
-            'WARNING': Qt.yellow,
-            'ERROR': Qt.red
+            ValidationStatus.GOOD: Qt.green,
+            ValidationStatus.WARNING: Qt.yellow,
+            ValidationStatus.ERROR: Qt.red
         }
         return colors.get(status, Qt.black)
 
     def display_validations(self, item):
-        index = self.object_list.row(item)
-        obj = self.scanned_objects[index]
-        obj_results = self.validation_results.get(obj.long_name, [])
-        text = f"Validations for {obj.name}:\n"
-        for validator, result in obj_results:
-            text += f"- {validator.__class__.__name__}: {result.status.name}\n"
-            text += f"  {result.message}\n"
+        uuid = item.data(Qt.UserRole)
+        obj = self.object_uuid_map[uuid]
+        # Get validators applicable to the object
+        validator_classes = ValidatorFactory.get_validator_classes(obj)
+        text = f"Validations applicable to {obj.name}:\n"
+        for validator_class in validator_classes:
+            text += f"- {validator_class.__name__}\n"
+        # If validation results exist, display them
+        if uuid in self.validation_service.validation_results:
+            obj_results = self.validation_service.validation_results[uuid]
+            text += "\nValidation Results:\n"
+            for validator_class, result in zip(validator_classes, obj_results):
+                text += f"- {validator_class.__name__}: {result.status.name}\n"
+                if result.message:
+                    text += f"  {result.message}\n"
+        else:
+            text += "\nValidations not yet executed.\n"
         self.validation_text.setText(text)
