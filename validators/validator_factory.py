@@ -2,6 +2,7 @@ from typing import List, Type
 from models.scene_object import SceneObject
 from models.model import Model
 from models.rig import Rig
+from models.camera import Camera
 from validators.base_validator import BaseValidator
 from validators.name_validator import NameValidator
 # Import other validators as they are implemented
@@ -9,7 +10,8 @@ from validators.name_validator import NameValidator
 class ValidatorFactory:
     _validator_mapping = {
         Model: [NameValidator],  # List of validator classes applicable to Model
-        Rig: [NameValidator],    # Validators for Rig (example)
+        Rig: [NameValidator],
+        Camera: [NameValidator],
         # Add other mappings as needed
     }
 

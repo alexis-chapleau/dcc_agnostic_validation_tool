@@ -1,20 +1,16 @@
 from typing import List
 from models.scene_object import SceneObject
-from models.model import Model
-from models.rig import Rig
-# Import other models as needed
+from scanners.scanner_factory import ScannerFactory
 
 class ScanningService:
     @staticmethod
     def scan_scene() -> List[SceneObject]:
-        # Placeholder for scanning logic
-        # In a real implementation, this would interact with DCC via adapters
+        scanned_objects: List[SceneObject] = []
 
-        # Example scanned objects
-        scanned_objects = [
-            Model(name="ValidModelName"),
-            Model(name="Invalid@ModelName!"),
-            Rig(name="ValidRigName"),
-            # Add other objects as needed
-        ]
+        scanners = ScannerFactory.get_scanners()
+
+        for scanner in scanners:
+            objects = scanner.scan()
+            scanned_objects.extend(objects)
+
         return scanned_objects

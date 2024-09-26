@@ -1,8 +1,8 @@
-import sys
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout,
-    QPushButton, QListWidget, QTextEdit, QLabel, QHBoxLayout, QListWidgetItem
+    QMainWindow, QWidget, QVBoxLayout,
+    QPushButton, QListWidget, QTextEdit, QHBoxLayout, QListWidgetItem
 )
+from typing import List
 from PySide6.QtCore import Qt
 from services.scanning_service import ScanningService
 from services.validation_service import ValidationService
@@ -11,14 +11,13 @@ from utils.validation_result import ValidationStatus
 from models.scene_object import SceneObject
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, scanning_service: ScanningService = None, validation_service: ValidationService = None):
         super().__init__()
-        self.setWindowTitle("Validation Tool")
-        self.resize(800, 600)
+        # Use the provided services or default to real implementations
+        self.scanning_service = scanning_service or ScanningService()
+        self.validation_service = validation_service or ValidationService()
         self.scanned_objects: List[SceneObject] = []
-        self.validation_service = ValidationService()
-        self.object_uuid_map = {}  # Map UUIDs to objects
-
+        self.object_uuid_map = {}
         self.init_ui()
         self.scan_scene()
 
@@ -48,7 +47,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
 
     def scan_scene(self):
-        self.scanned_objects = ScanningService.scan_scene()
+        self.scanned_objects = self.scanning_service.scan_scene()
         self.object_list.clear()
         self.object_uuid_map.clear()
         for obj in self.scanned_objects:
