@@ -3,6 +3,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Model(SceneObject):
-    # Additional attributes specific to models
+class Rig(SceneObject):
+    # Additional attributes specific to rigs
     pass
