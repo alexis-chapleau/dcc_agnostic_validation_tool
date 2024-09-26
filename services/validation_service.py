@@ -9,5 +9,5 @@ class ValidationService:
             for validator in validators:
                 result = validator.execute()
                 obj_results.append((validator, result))
-            results[obj] = obj_results
+            results[obj.long_name] = obj_results
         return results

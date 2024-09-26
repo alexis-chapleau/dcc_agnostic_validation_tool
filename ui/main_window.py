@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         for index in range(self.object_list.count()):
             item = self.object_list.item(index)
             obj = self.scanned_objects[index]
-            obj_results = self.validation_results.get(obj, [])
+            obj_results = self.validation_results.get(obj.long_name, [])
             worst_status = self.get_worst_status(obj_results)
             item.setForeground(self.get_color_for_status(worst_status))
 
@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
     def display_validations(self, item):
         index = self.object_list.row(item)
         obj = self.scanned_objects[index]
-        obj_results = self.validation_results.get(obj, [])
+        obj_results = self.validation_results.get(obj.long_name, [])
         text = f"Validations for {obj.name}:\n"
         for validator, result in obj_results:
             text += f"- {validator.__class__.__name__}: {result.status.name}\n"
