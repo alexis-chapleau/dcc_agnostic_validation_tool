@@ -1,8 +1,8 @@
 from typing import List
-from scanners.base_scanner import BaseScanner
-from adapters.api_adapter_factory import ApiAdapterFactory
-from scanners.camera_scanner import CameraScanner
-from utils.dcc_detector import DCCDetector
+from src.scanners.base_scanner import BaseScanner
+from src.adapters.api_adapter_factory import ApiAdapterFactory
+from src.scanners.camera_scanner import CameraScanner
+from src.utils.dcc_detector import DCCDetector
 
 class ScannerFactory:
     @staticmethod

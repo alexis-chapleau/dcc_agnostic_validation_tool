@@ -1,7 +1,7 @@
 import unittest
-from validators.name_validator import NameValidator
-from models.scene_object import SceneObject
-from utils.validation_result import ValidationStatus
+from src.validators.name_validator import NameValidator
+from src.models.scene_object import SceneObject
+from src.utils.validation_result import ValidationStatus
 
 class MockSceneObject(SceneObject):
     pass

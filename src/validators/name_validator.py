@@ -1,6 +1,6 @@
 import re
-from validators.base_validator import BaseValidator
-from utils.validation_result import ValidationResult, ValidationStatus
+from src.validators.base_validator import BaseValidator
+from src.utils.validation_result import ValidationResult, ValidationStatus
 
 class NameValidator(BaseValidator):
     fixable = True  # Since we implement fix_it

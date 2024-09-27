@@ -1,6 +1,6 @@
 from typing import List
-from models.scene_object import SceneObject
-from scanners.scanner_factory import ScannerFactory
+from src.models.scene_object import SceneObject
+from src.scanners.scanner_factory import ScannerFactory
 
 class ScanningService:
     @staticmethod

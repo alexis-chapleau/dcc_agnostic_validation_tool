@@ -3,10 +3,9 @@ import os
 class DCCDetector:
     @staticmethod
     def get_current_dcc():
-        # Check environment variables or try importing DCC-specific modules
-        if 'MAYA_EXEC' in os.environ:
+        if 'MAYA_LOCATION' in os.environ:
             return 'maya'
-        elif 'HOUDINI_PATH' in os.environ:
+        elif 'HFS' in os.environ:
             return 'houdini'
         else:
             # Try importing DCC-specific modules
@@ -20,5 +19,5 @@ class DCCDetector:
                 return 'houdini'
             except ImportError:
                 pass
-        # Return 'standalone' if no DCC is detected
-        return 'standalone'
+            # Default to 'standalone'
+            return 'standalone'

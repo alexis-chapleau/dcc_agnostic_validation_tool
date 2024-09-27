@@ -1,4 +1,4 @@
-from adapters.base_adapter import BaseAdapter
+from src.adapters.base_adapter import BaseAdapter
 
 class MockApiAdapter(BaseAdapter):
     def scan_cameras(self):

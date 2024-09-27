@@ -1,10 +1,10 @@
 from typing import List, Type
-from models.scene_object import SceneObject
-from models.model import Model
-from models.rig import Rig
-from models.camera import Camera
-from validators.base_validator import BaseValidator
-from validators.name_validator import NameValidator
+from src.models.scene_object import SceneObject
+from src.models.model import Model
+from src.models.rig import Rig
+from src.models.camera import Camera
+from src.validators.base_validator import BaseValidator
+from src.validators.name_validator import NameValidator
 # Import other validators as they are implemented
 
 class ValidatorFactory:

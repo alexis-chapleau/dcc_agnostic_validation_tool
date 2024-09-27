@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
-from models.scene_object import SceneObject
-from adapters.base_adapter import BaseAdapter
+from src.models.scene_object import SceneObject
+from src.adapters.base_adapter import BaseAdapter
 
 
 class BaseScanner(ABC):

@@ -1,7 +1,7 @@
-from adapters.base_adapter import BaseAdapter
-from adapters.maya_api_adapter import MayaApiAdapter
-from adapters.houdini_api_adapter import HoudiniApiAdapter
-from utils.dcc_detector import DCCDetector
+from src.adapters.base_adapter import BaseAdapter
+from src.adapters.maya_api_adapter import MayaApiAdapter
+from src.adapters.houdini_api_adapter import HoudiniApiAdapter
+from src.utils.dcc_detector import DCCDetector
 
 class ApiAdapterFactory:
     @staticmethod

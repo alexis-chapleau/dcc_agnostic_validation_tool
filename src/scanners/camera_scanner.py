@@ -1,5 +1,5 @@
-from scanners.base_scanner import BaseScanner
-from models.camera import Camera
+from src.scanners.base_scanner import BaseScanner
+from src.models.camera import Camera
 from typing import List
 
 class CameraScanner(BaseScanner):

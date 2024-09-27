@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import patch
-from services.validation_service import ValidationService
-from models.model import Model
-from models.camera import Camera
-from utils.validation_result import ValidationStatus
+from src.services.validation_service import ValidationService
+from src.models.model import Model
+from src.models.camera import Camera
+from src.utils.validation_result import ValidationStatus
 from tests.mocks.mock_validator_factory import MockValidatorFactory
 
 class TestValidationService(unittest.TestCase):
-    @patch('services.validation_service.ValidatorFactory', new=MockValidatorFactory)
+    @patch('src.services.validation_service.ValidatorFactory', new=MockValidatorFactory)
     def test_validate_objects(self):
         # Arrange
         validation_service = ValidationService()

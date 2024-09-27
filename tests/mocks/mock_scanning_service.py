@@ -1,6 +1,6 @@
-from services.scanning_service import ScanningService
-from models.model import Model
-from models.camera import Camera
+from src.services.scanning_service import ScanningService
+from src.models.model import Model
+from src.models.camera import Camera
 
 class MockScanningService(ScanningService):
     @staticmethod

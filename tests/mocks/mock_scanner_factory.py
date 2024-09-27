@@ -1,6 +1,5 @@
-from scanners.base_scanner import BaseScanner
-from scanners.camera_scanner import CameraScanner
-from adapters.base_adapter import BaseAdapter
+from src.scanners.base_scanner import BaseScanner
+from src.scanners.camera_scanner import CameraScanner
 from typing import List
 
 class MockScannerFactory:

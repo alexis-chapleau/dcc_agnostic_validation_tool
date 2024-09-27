@@ -1,6 +1,5 @@
-from services.validation_service import ValidationService
-from utils.validation_result import ValidationResult, ValidationStatus
-from validators.name_validator import NameValidator
+from src.services.validation_service import ValidationService
+from src.validators.name_validator import NameValidator
 
 class MockValidationService(ValidationService):
     def validate_objects(self, objects):

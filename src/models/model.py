@@ -1,4 +1,4 @@
-from models.scene_object import SceneObject
+from src.models.scene_object import SceneObject
 from dataclasses import dataclass
 
 

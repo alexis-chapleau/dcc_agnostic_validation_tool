@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from utils.validation_result import ValidationResult
+from src.utils.validation_result import ValidationResult
 
 class BaseValidator(ABC):
     fixable: bool = False

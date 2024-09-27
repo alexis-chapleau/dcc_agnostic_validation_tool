@@ -1,25 +1,32 @@
 from PySide6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout,
+    QWidget, QVBoxLayout,
     QPushButton, QListWidget, QTextEdit, QHBoxLayout, QListWidgetItem
 )
-from typing import List
 from PySide6.QtCore import Qt
-from services.scanning_service import ScanningService
-from services.validation_service import ValidationService
-from validators.validator_factory import ValidatorFactory
-from utils.validation_result import ValidationStatus
-from models.scene_object import SceneObject
+from src.validators.validator_factory import ValidatorFactory
+from src.utils.validation_result import ValidationStatus
+
+# ui/main_window.py
+
+from PySide6.QtWidgets import QMainWindow
+from src.services.scanning_service import ScanningService
+from src.services.validation_service import ValidationService
+from src.utils.dcc_detector import DCCDetector
+from typing import Optional
 
 class MainWindow(QMainWindow):
-    def __init__(self, scanning_service: ScanningService = None, validation_service: ValidationService = None):
-        super().__init__()
-        # Use the provided services or default to real implementations
-        self.scanning_service = scanning_service or ScanningService()
+    def __init__(self, scanning_service=None, validation_service=None, parent: Optional[QMainWindow] = None):
+        super().__init__(parent)
+        self.setWindowTitle("Validation Tool")
+        self.resize(800, 600)
+        self.scanned_objects = []
         self.validation_service = validation_service or ValidationService()
-        self.scanned_objects: List[SceneObject] = []
+        self.scanning_service = scanning_service or ScanningService()
         self.object_uuid_map = {}
+        self.dcc = DCCDetector.get_current_dcc()
         self.init_ui()
         self.scan_scene()
+
 
     def init_ui(self):
         main_layout = QHBoxLayout()

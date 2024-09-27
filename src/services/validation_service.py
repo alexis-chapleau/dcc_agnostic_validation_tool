@@ -1,7 +1,7 @@
 from typing import Dict, List
-from models.scene_object import SceneObject
-from utils.validation_result import ValidationResult
-from validators.validator_factory import ValidatorFactory
+from src.models.scene_object import SceneObject
+from src.utils.validation_result import ValidationResult
+from src.validators.validator_factory import ValidatorFactory
 
 class ValidationService:
     def __init__(self):

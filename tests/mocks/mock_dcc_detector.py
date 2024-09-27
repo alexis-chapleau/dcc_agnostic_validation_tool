@@ -1,4 +1,4 @@
-from utils.dcc_detector import DCCDetector
+from src.utils.dcc_detector import DCCDetector
 
 class MockDCCDetector(DCCDetector):
     @staticmethod
